@@ -1,0 +1,59 @@
+livewire is full stack laravel to create a dynamic component using the same laravel's philosophy
+- Tall stack : tailwind css , alphinejs , laravel , livewire
+- to install livewire :
+>> composer require livewire/livewire
+- to create livewire component :
+>> php artisan make:livewire test
+>>> creating of component in app > http and component blade
+- we can pass data to our component : view('',[
+    'name' => 'slimani',
+])
+- to display the name , we use : {{ $name}}
+- before that , we should add these directives in our master blade
+
+@livewireStyles for styles
+<livewire:counter /> for adding the component
+or
+@livewire('counter',['key'=>'value']) we can pass data to this component
+@livewireScripts for scripts
+
+- component stucture :
+class Counter extends Component {
+
+   public function render()
+    {
+        return view('livewire.counter');
+    }
+}
+
+- data binding :
+1. we create a public variable in our component and we mind this variable to an input in this way :
+wire:model='name'
+=> what happend in the background is : send an ajax request from ui to the server to get u value
+note that u can control the time of minding data using :
+wire:model.debounce.1000ms="name" ,
+we can also use lazy , the difference is we i click outside of the input , the data will display
+
+- events :
+* wire:eventName = "functionName" => functionName is defined inside the component
+notice that we can pass as argument $event.target.innerText or any others value
+
+<form wire:submit.prevent="functionName">
+$se('name','value')
+
+* lifecycle hooks :
+mount($name) ; runs with firt request , its like a __contructor()
+$name = is the value passed into component
+mount() can use to initialize the data
+
+hydrate() will be run after every subrequest
+updated() after update value of any variable
+updatedFoo() for just Foo variable
+updating() before updated
+
+
+* nesting
+@foeach($names as $name)
+    @livewire('day',['name'=>$name] , key($name))
+@endforeach
+
